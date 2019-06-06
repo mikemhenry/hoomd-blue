@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 # hoomd's cflags setup script will take care of proper cxx flags settings
 
+set(PYBIND11_PYTHON_VERSION 3)
+
 include(pybind11Tools)
 
 if (PYTHON_VERSION_MAJOR LESS 3)
