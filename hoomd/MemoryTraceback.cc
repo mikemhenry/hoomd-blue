@@ -12,7 +12,11 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+
+#if !(defined(__linux__) && !defined(__GLIBC__))
 #include <execinfo.h>
+#endif 
+
 #include <cxxabi.h>
 #include <dlfcn.h>
 
@@ -29,8 +33,8 @@ void MemoryTraceback::registerAllocation(const void *ptr, unsigned int nbytes, c
     m_tags[idx] = tag;
 
     // obtain a traceback
-    int num_symbols = backtrace(&m_traces[idx].front(), MAX_TRACEBACK);
-
+    //int num_symbols = backtrace(&m_traces[idx].front(), MAX_TRACEBACK);
+    int num_symbols = 0;
     m_traces[idx].resize(num_symbols);
     }
 
@@ -111,8 +115,8 @@ void MemoryTraceback::outputTraces(std::shared_ptr<Messenger> msg) const
 
         // translate symbol addresses into array of strings
         unsigned int size = it_trace->second.size();
-        char **symbols = backtrace_symbols(&it_trace->second.front(), size);
-
+        //char **symbols = backtrace_symbols(&it_trace->second.front(), size);
+        char **symbols = 0;
         if (! symbols)
             throw std::runtime_error("Out of memory while trying to obtain stacktrace.");
 
